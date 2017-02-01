@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[内网 ubuntu 服务器搭建]]></title>
+      <url>%2F2017%2F02%2F01%2Fnei-wang-ubuntu-fu-wu-qi-da-jian%2F</url>
+      <content type="text"><![CDATA[话说小年夜开始折腾 hexo + github 建站后，陆续完善了文章分段、图片插入和搜索功能，小站我能想到、需要用到的功能已经完备了。网站好了，但是我笔记本上的 ubuntu 系统还有不少可以优化的工作，这几天陆续折腾了下，现在比较顺手了，写下此文以纪念。 笔记本上除了跑 hexo，原来还有 dnsmasq 服务做局域网的解析加速服务，之后在 V 站看了个帖子，从内容来看还是实验性质的，不过折腾么，就是玩，于是换上了 pdnsd 开始搞。搭建 pdnsd 的过程略折腾，犯了几个低级错误，花了不少冤枉时间，好在顺利跑起来了。 内网解析 dns 比直接用 114 public dns 要略微快点，可能只是心理作用的关系，它最大的好处是可以缓存解析结果，实际应用中的意义，就是你在看朋友圈时，铺天盖地的 mp.weixin.qq.com 网址的公众号文章打开很快，基本秒开，很省时间，老婆也叫爽爽爽！ 我这台笔记本，是很老的设备，有个比较要命的问题，就是「风扇一响天下闻」，那叫一个吵。此外，我的操作都是通过 ssh 上去的，不需要直接在笔记本上操作，完全可以把它塞到一个无人的角落里，接上电源让它默默工作就行了，联网自有 wifi 也不成问题。笔记本当时装机时用的是 1604 的桌面版本，GUI 我是根本用不到的，跑起来还消耗系统资源，直接导致风扇狂响，完全可以关闭。还有一个问题，也需要解决，就是这笔记本是长期处于合盖状态下工作的，默认状态下合上盖子系统就挂起了，那可不行：D，也要搞定。 12345678910111213141516171819sudo nano /etc/default/grub //修改 grub# GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"GRUB_CMDLINE_LINUX_DEFAULT="quiet" //把上一行的内容修改成这样 保存退出sudo update-grub //使修改生效sudo systemctl set-default multi-user.target //启动到终端sudo systemctl start lightdm //终端下启动 GUIsystemctl set-default graphical.target //恢复启动到 GUI# 如果不修改 grub，也是可以达到启动到命令行的效果的，但是需要你手动 Ctrl Alt F1 登陆，如果是 ssh 的话，就卡住了。sudo nano /etc/systemd/logind.conf# HandleLidSwitch=suspendHandleLidSwitch=ignore //内容修改，使笔记本合盖时系统不挂起sudo apt-get install lm-sensorssensors //安装监控程序，可以直接命令行控制输出当前硬件的温度sudo nano ~/.bashrcalias cls='printf "\033c"' //Dos 下习惯了，清屏命令 cls 最顺手 如上，设置全部完成后，系统已经处于非常顺手的状态了，风扇也没有狂响过，我把笔记本塞到角落，通过 ssh 登陆可以进行全部操作，也可以让它重启后再次 ssh 登陆。 调试完成，很兴奋，把老婆手机的 dns 切到内网服务器上，又用 NOIP 做了ddns，路由上端口转发设置好，这下就可以远程控制了，咱也算是有一台墙内的 VPS 啦：D]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[建站小记]]></title>
       <url>%2F2017%2F01%2F27%2Fjian-zhan-xiao-ji%2F</url>
       <content type="text"><![CDATA[终于把这个 github page 站跑起来了，应该可以跑很久，写段文字纪念一下。 这个站，在 github 上开一个 repository，文章用 Markdown 格式写好，winscp 放到本地 ubuntu 里，然后在我的本地 ubuntu 笔记本上用 hexo 生成静态页面推上去。总的来说还算方便，或者说，对于我这样水平的人来说，这个方式刚好可以实现。 Hexo + github 建站的好处是，我的原始文章都是 Markdown 格式的，而且在本地，万一网站倒了，不至于多年心血毁于一旦。而且 hexo 生成的内容，public 里可以直接挂网站，即便没有使用 github 的条件了，仍然可以很方便的转到别的地方去。所以说这个方案的生命力很强，我终于可以有一个写写随笔的平台了。 2016年7月左右，我有在 windows 上搭建 hexo 平台推 github 的尝试，不过没有弄起来，一方面 windows 平台下的资料少，另一方面自己命令行操作的信心还是在 ubuntu 下更强，不过当时没有想到用笔记本来跑，这事就搁下了。 我的笔记本，是富士通的 s6420，很老的型号，闲置也有好几年了。上个月底突发奇想，用 usb 给它跑了个 ubuntu，上了dnsmasq，后来换到 pdnsd，加速下家里的解析环境。上周突然想起了半年前的这个想法，于是重新启动。过程总的来说，非常曲折，先是 node.js 装的不顺利，网上所谓的教程很多，但是很多都是互相抄袭，试了很多，后来还是自己下的代码编译安装的，说实话这编译的时间有点惊到我了。之后装 git 什么都很顺利，hexo 也很简单，但是 hexo 推 github 这步搞了很久，public key 搞不定，最后是不用 git，改用 https 推上去了。 到这里可以说，跑起这个站点已经不成问题，接下来就是选 theme、 微调整界面、chmod 调整权限、试着用 winscp 控制 _post 里的文章等等琐碎的小事了。 后续要解决的，一个是自定义域名，一个是图文混排的尝试，应该问题都不大了。 大年夜完成搭建站点，挺开心的，要过春节了，这可以算是给自己本命年礼物吧 :D]]></content>
