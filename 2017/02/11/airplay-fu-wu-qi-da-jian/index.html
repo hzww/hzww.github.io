@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="I AM HUANG">
 <meta property="og:description" content="家里有一对漫步者 2.0 的有源音箱，本来是配桌面电脑的。后来我发现，在使用桌面电脑的绝大多数时间段里，我都是在用耳机，音箱一开始吃灰，后来就被我收了起来。这次家里的服务器开起来后，我又把音箱翻了出来，接到笔记本上，打算做一个 Airplay 的音频播放平台。
 要实现这个功能，最主要的就是在 ubuntu 系统上安装 shairport-sync 这个开源程序。打开页面先大致通读一遍 readme">
-<meta property="og:updated_time" content="2017-02-11T11:28:25.000Z">
+<meta property="og:updated_time" content="2017-02-11T11:32:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Airplay 服务器搭建">
 <meta name="twitter:description" content="家里有一对漫步者 2.0 的有源音箱，本来是配桌面电脑的。后来我发现，在使用桌面电脑的绝大多数时间段里，我都是在用耳机，音箱一开始吃灰，后来就被我收了起来。这次家里的服务器开起来后，我又把音箱翻了出来，接到笔记本上，打算做一个 Airplay 的音频播放平台。
@@ -289,7 +289,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-11T19:29:44+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-11T19:33:18+08:00">
                 2017-02-11
               </time>
             
@@ -328,7 +328,7 @@
         <p>家里有一对漫步者 2.0 的有源音箱，本来是配桌面电脑的。后来我发现，在使用桌面电脑的绝大多数时间段里，我都是在用耳机，音箱一开始吃灰，后来就被我收了起来。这次家里的<a href="http://hzww.me/2017/02/01/nei-wang-ubuntu-fu-wu-qi-da-jian/" target="_blank" rel="external">服务器开起来后</a>，我又把音箱翻了出来，接到笔记本上，打算做一个 Airplay 的音频播放平台。</p>
 <p>要实现这个功能，最主要的就是在 ubuntu 系统上安装 <a href="https://github.com/mikebrady/shairport-sync" target="_blank" rel="external">shairport-sync</a> 这个开源程序。打开页面先大致通读一遍 readme 文档，主要步骤就是先安装，再配置 config 文档。程序安装部分，作者针对各个发行版做了分别的说明，我是 ubuntu 16.04，不必逐包安装，有现成的 <a href="https://launchpad.net/~dantheperson" target="_blank" rel="external">package</a> 可用。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:dantheperson/shairplay-sync</div><div class="line">sudo apt-get update</div><div class="line">sudo apt install shairplay-sync</div></pre></td></tr></table></figure>
-<p>三条命令打完，程序安装完毕，开始配置 config 文件：/etc/shairplay-sync.conf</p>
+<p>三条命令打完，程序安装完毕，开始配置 config 文件：/etc/shairplay-sync.conf <a id="more"></a></p>
 <p>先贴一个我现在用的配置文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">general = &#123;</div><div class="line">   name = <span class="string">"xxx为您服务"</span>;		//定义 airplay 设备的名字，这个名字会在播放设备比如 iPhone 上显示。</div><div class="line">&#125;;</div><div class="line"></div><div class="line">alsa = &#123;</div><div class="line">   output_device = <span class="string">"hw:0"</span>;	//定义通过哪块声卡来发声。我只有一块声卡，就是 hw:0，设备确认可以通过命令 aplay <span class="_">-l</span> 来查看。</div><div class="line">   mixer_control_name =	<span class="string">"Master"</span>	//定义音量控制哪个变量。变量名可以通过 alsamixer 命令来查看，我音箱接的是笔记本的耳机孔，因此和我有关的变量就是 Master Headphon PCM，这里我选择控制 Master，就是控制全局音量。</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>接着就是启动 shairplay-sync 这个服务：</p>
