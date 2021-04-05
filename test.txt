@@ -1,2 +1,2 @@
-.163.com
-.sina.com.cn
+DOMAIN,www.163.com
+DOMAIN,mail.163.com
