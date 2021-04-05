@@ -1,2 +1,2 @@
-DOMAIN,www.163.com
-DOMAIN,mail.163.com
+3g.163.com
+# DOMAIN,mail.163.com
